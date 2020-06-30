@@ -53,7 +53,7 @@ class Game{
             b.top <= a.bottom)
     }
 
-    public addScore() : void {
+    private addScore() : void {
         let score = document.getElementsByTagName("score")[0]
         this.score++
         score.innerHTML = "" + this.score

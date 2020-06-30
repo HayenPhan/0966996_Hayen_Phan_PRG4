@@ -161,9 +161,6 @@ var Tank = (function (_super) {
                 break;
         }
     };
-    Tank.prototype.update = function () {
-        _super.prototype.update.call(this);
-    };
     Tank.prototype.restart = function () {
         this.x = 50;
         this.y = 500;

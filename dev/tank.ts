@@ -22,10 +22,6 @@ class Tank extends GameObject{
         }
     }
 
-    public update() : void {
-       super.update()
-    }
-
     public restart():void {
         this.x = 50
         this.y = 500
