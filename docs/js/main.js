@@ -37,16 +37,14 @@ var Bomb = (function (_super) {
     function Bomb() {
         var _this = _super.call(this, "bomb") || this;
         _this.speed = 0;
-        _this.x = (Math.random() * -400) - 168;
-        _this.y = Math.ceil(Math.random() * 5) * 120;
+        _this.setRandomXInScreen(_this.div);
+        _this.setRandomYAboveScreen();
         _this.speed = Math.random() * 2 + 2;
         return _this;
     }
     Bomb.prototype.update = function () {
-        this.x += this.speed;
-        if (this.x > window.innerWidth) {
-            this.x = -this.div.clientWidth;
-        }
+        this.y += this.speed;
+        console.log(this.y);
         _super.prototype.update.call(this);
     };
     Bomb.prototype.getRandom = function (min, max) {
@@ -69,7 +67,7 @@ var Game = (function () {
         this.gameobjects = [];
         console.log("Game created!");
         this.gameobjects.push(new Tank());
-        for (var i = 0; i < 7; i++) {
+        for (var i = 0; i < 10; i++) {
             this.gameobjects.push(new Bomb());
         }
         this.gameLoop();

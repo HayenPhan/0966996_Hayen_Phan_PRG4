@@ -7,18 +7,32 @@ class Bomb extends GameObject {
         super("bomb")
 
 
-        this.x = (Math.random() * -400) - 168
-        this.y = Math.ceil(Math.random() * 5) * 120
+        //this.x = 500
+        //this.y = 50
+
+        this.setRandomXInScreen(this.div)
+        this.setRandomYAboveScreen()
+
+        
         this.speed = Math.random() * 2 + 2
+
+
+
 
     }
 
     public update() : void {
-        this.x += this.speed
+        // this.x += this.speed
         
-        if (this.x > window.innerWidth) {
-            this.x = -this.div.clientWidth
-        }
+        // if (this.x > window.innerWidth) {
+        //     this.x = -this.div.clientWidth
+        // }
+
+        //this.y += this.speed
+
+        this.y += this.speed
+
+        console.log(this.y)
         
         super.update()
     }
@@ -26,11 +40,7 @@ class Bomb extends GameObject {
     private getRandom(min: number, max: number): number{
         return Math.floor(Math.random() * (max - min + 1)) + min;
     }
-    
-    /**
-    * Set current x parameter to a random position on the x-axis
-    * @param element 
-    */
+
     private setRandomXInScreen(element : HTMLElement): void {
         let min = 0;
         let max = window.innerWidth - element.clientWidth;

@@ -9,7 +9,7 @@ class Game{
 
         this.gameobjects.push(new Tank())
 
-        for(let i=0; i < 7; i++) {
+        for(let i=0; i < 10; i++) {
             this.gameobjects.push(new Bomb())
         }
 
