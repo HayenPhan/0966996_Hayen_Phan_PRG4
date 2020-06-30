@@ -3,7 +3,9 @@
 class Bomb extends GameObject {
     private speed: number = 0
 
-     constructor() {
+    private game: Game
+
+     constructor(g: Game) {
         super("bomb")
 
 
@@ -16,8 +18,7 @@ class Bomb extends GameObject {
         
         this.speed = Math.random() * 2 + 2
 
-
-
+        this.game = g
 
     }
 
@@ -31,10 +32,12 @@ class Bomb extends GameObject {
         //this.y += this.speed
 
         this.y += this.speed
-
-        console.log(this.y)
         
         super.update()
+    }
+
+    public removeBomb():void {
+        this.div.remove();
     }
 
     private getRandom(min: number, max: number): number{

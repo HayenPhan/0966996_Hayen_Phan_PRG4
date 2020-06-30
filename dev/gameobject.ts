@@ -9,6 +9,11 @@ class GameObject {
         return this._div
     }
 
+    public getRectangle() : DOMRect {
+        return this._div.getBoundingClientRect()
+        // return this.hitbox.getBoundingClientRect()
+    }
+
     constructor(tag : string) {
         this._div = document.createElement(tag)
         let game = document.getElementsByTagName("game")[0]!

@@ -20,8 +20,6 @@ class Tank extends GameObject{
             this.x += 5
             break
         }
-
-        console.log(event.keyCode)
     }
 
     public update() : void {

@@ -27,6 +27,9 @@ var GameObject = (function () {
         enumerable: false,
         configurable: true
     });
+    GameObject.prototype.getRectangle = function () {
+        return this._div.getBoundingClientRect();
+    };
     GameObject.prototype.update = function () {
         this._div.style.transform = "translate(" + this.x + "px, " + this.y + "px)";
     };
@@ -34,18 +37,21 @@ var GameObject = (function () {
 }());
 var Bomb = (function (_super) {
     __extends(Bomb, _super);
-    function Bomb() {
+    function Bomb(g) {
         var _this = _super.call(this, "bomb") || this;
         _this.speed = 0;
         _this.setRandomXInScreen(_this.div);
         _this.setRandomYAboveScreen();
         _this.speed = Math.random() * 2 + 2;
+        _this.game = g;
         return _this;
     }
     Bomb.prototype.update = function () {
         this.y += this.speed;
-        console.log(this.y);
         _super.prototype.update.call(this);
+    };
+    Bomb.prototype.removeBomb = function () {
+        this.div.remove();
     };
     Bomb.prototype.getRandom = function (min, max) {
         return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -65,10 +71,11 @@ var Bomb = (function (_super) {
 var Game = (function () {
     function Game() {
         this.gameobjects = [];
+        this.score = 0;
         console.log("Game created!");
         this.gameobjects.push(new Tank());
         for (var i = 0; i < 10; i++) {
-            this.gameobjects.push(new Bomb());
+            this.gameobjects.push(new Bomb(this));
         }
         this.gameLoop();
     }
@@ -77,6 +84,18 @@ var Game = (function () {
         for (var _i = 0, _a = this.gameobjects; _i < _a.length; _i++) {
             var object = _a[_i];
             object.update();
+            if (object instanceof Tank) {
+                for (var _b = 0, _c = this.gameobjects; _b < _c.length; _b++) {
+                    var bomb = _c[_b];
+                    if (bomb instanceof Bomb) {
+                        if (this.checkCollision(object.getRectangle(), bomb.getRectangle())) {
+                            console.log("botsing");
+                            bomb.removeBomb();
+                            this.addScore();
+                        }
+                    }
+                }
+            }
         }
         requestAnimationFrame(function () { return _this.gameLoop(); });
     };
@@ -85,6 +104,11 @@ var Game = (function () {
             b.left <= a.right &&
             a.top <= b.bottom &&
             b.top <= a.bottom);
+    };
+    Game.prototype.addScore = function () {
+        var score = document.getElementsByTagName("score")[0];
+        this.score++;
+        score.innerHTML = "" + this.score;
     };
     return Game;
 }());
@@ -107,7 +131,6 @@ var Tank = (function (_super) {
                 this.x += 5;
                 break;
         }
-        console.log(event.keyCode);
     };
     Tank.prototype.update = function () {
         _super.prototype.update.call(this);
