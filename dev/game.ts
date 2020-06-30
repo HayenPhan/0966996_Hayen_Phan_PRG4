@@ -61,17 +61,15 @@ class Game{
 
     private catchOnTime(bomb: Bomb):void {
         if(bomb.y + bomb.div.clientHeight > window.innerHeight) {
-            let lives = document.getElementsByTagName("lives")[0]
-            this.lives--
-            lives.innerHTML = "" + this.lives
+            // let lives = document.getElementsByTagName("lives")[0]
+            // this.lives--
+            // lives.innerHTML = "" + this.lives
 
-            this.restart()
+            for(const object of this.gameobjects) {
+                object.restart()
+            }
 
         }
-    }
-
-    private restart():void {
-        this.lives++
     }
 
     private gameOver():void {

@@ -14,10 +14,10 @@ class Tank extends GameObject{
     private onKeyDown(event:KeyboardEvent):void {
         switch(event.keyCode){
         case 65:
-            this.x -= 5
+            this.x -= 20
             break
         case 68:
-            this.x += 5
+            this.x += 20
             break
         }
     }
@@ -26,5 +26,9 @@ class Tank extends GameObject{
        super.update()
     }
 
+    public restart():void {
+        this.x = 50
+        this.y = 500
+    }
 
 }

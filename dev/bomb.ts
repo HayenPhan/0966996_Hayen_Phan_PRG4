@@ -14,7 +14,7 @@ class Bomb extends GameObject {
         this.setRandomYAboveScreen()
 
         
-        this.speed = Math.random() * 2 + 2
+        this.speed = Math.random() * 0.5 + 0.5
 
     }
 
@@ -55,5 +55,15 @@ class Bomb extends GameObject {
         let max = 0;
     
         this.y = this.getRandom(min, max);
+    }
+
+    public restart():void {
+        console.log("restartbomb")
+
+        this.setRandomXInScreen(this.div)
+        this.setRandomYAboveScreen()
+
+        
+        this.speed = Math.random() * 2 + 2
     }
 }

@@ -31,4 +31,8 @@ class GameObject {
     public update():void {
         this._div.style.transform = `translate(${this.x}px, ${this._y}px)` 
     }
+
+    public restart() : void {
+        
+    }
 }

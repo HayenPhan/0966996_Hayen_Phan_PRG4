@@ -43,6 +43,8 @@ var GameObject = (function () {
     GameObject.prototype.update = function () {
         this._div.style.transform = "translate(" + this.x + "px, " + this._y + "px)";
     };
+    GameObject.prototype.restart = function () {
+    };
     return GameObject;
 }());
 var Bomb = (function (_super) {
@@ -52,7 +54,7 @@ var Bomb = (function (_super) {
         _this.speed = 0;
         _this.setRandomXInScreen(_this.div);
         _this.setRandomYAboveScreen();
-        _this.speed = Math.random() * 2 + 2;
+        _this.speed = Math.random() * 0.5 + 0.5;
         return _this;
     }
     Bomb.prototype.update = function () {
@@ -74,6 +76,12 @@ var Bomb = (function (_super) {
         var min = 0 - 500;
         var max = 0;
         this.y = this.getRandom(min, max);
+    };
+    Bomb.prototype.restart = function () {
+        console.log("restartbomb");
+        this.setRandomXInScreen(this.div);
+        this.setRandomYAboveScreen();
+        this.speed = Math.random() * 2 + 2;
     };
     return Bomb;
 }(GameObject));
@@ -123,14 +131,11 @@ var Game = (function () {
     };
     Game.prototype.catchOnTime = function (bomb) {
         if (bomb.y + bomb.div.clientHeight > window.innerHeight) {
-            var lives = document.getElementsByTagName("lives")[0];
-            this.lives--;
-            lives.innerHTML = "" + this.lives;
-            this.restart();
+            for (var _i = 0, _a = this.gameobjects; _i < _a.length; _i++) {
+                var object = _a[_i];
+                object.restart();
+            }
         }
-    };
-    Game.prototype.restart = function () {
-        this.lives++;
     };
     Game.prototype.gameOver = function () {
     };
@@ -149,15 +154,19 @@ var Tank = (function (_super) {
     Tank.prototype.onKeyDown = function (event) {
         switch (event.keyCode) {
             case 65:
-                this.x -= 5;
+                this.x -= 20;
                 break;
             case 68:
-                this.x += 5;
+                this.x += 20;
                 break;
         }
     };
     Tank.prototype.update = function () {
         _super.prototype.update.call(this);
+    };
+    Tank.prototype.restart = function () {
+        this.x = 50;
+        this.y = 500;
     };
     return Tank;
 }(GameObject));
