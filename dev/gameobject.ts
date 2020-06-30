@@ -3,7 +3,15 @@ class GameObject {
      private _div: HTMLElement
 
      protected x : number = 0
-     protected y : number = 0
+     private _y: number = 0
+  
+    public set y(value: number) {
+        this._y = value
+    }
+     
+    public get y(): number {
+        return this._y
+    }
 
     public get div(): HTMLElement {
         return this._div
@@ -21,6 +29,6 @@ class GameObject {
     }
 
     public update():void {
-        this._div.style.transform = `translate(${this.x}px, ${this.y}px)` 
+        this._div.style.transform = `translate(${this.x}px, ${this._y}px)` 
     }
 }

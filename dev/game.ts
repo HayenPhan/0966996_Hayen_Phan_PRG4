@@ -5,14 +5,16 @@ class Game{
     private gameobjects : GameObject[] = []
 
     private score : number = 0
+    private lives : number = 0
 
     constructor(){
-        console.log("Game created!")
+        
+        this.lives = 4
 
         this.gameobjects.push(new Tank())
 
         for(let i=0; i < 10; i++) {
-            this.gameobjects.push(new Bomb(this))
+            this.gameobjects.push(new Bomb())
         }
 
         this.gameLoop();
@@ -34,6 +36,8 @@ class Game{
                             bomb.removeBomb()
                             this.addScore()
                         }
+
+                        this.catchOnTime(bomb)
                     }
                 }
             }
@@ -53,6 +57,25 @@ class Game{
         let score = document.getElementsByTagName("score")[0]
         this.score++
         score.innerHTML = "" + this.score
+    }
+
+    private catchOnTime(bomb: Bomb):void {
+        if(bomb.y + bomb.div.clientHeight > window.innerHeight) {
+            let lives = document.getElementsByTagName("lives")[0]
+            this.lives--
+            lives.innerHTML = "" + this.lives
+
+            this.restart()
+
+        }
+    }
+
+    private restart():void {
+        this.lives++
+    }
+
+    private gameOver():void {
+        
     }
 }
 

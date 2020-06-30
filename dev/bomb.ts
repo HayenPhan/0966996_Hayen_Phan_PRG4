@@ -3,9 +3,7 @@
 class Bomb extends GameObject {
     private speed: number = 0
 
-    private game: Game
-
-     constructor(g: Game) {
+     constructor() {
         super("bomb")
 
 
@@ -17,8 +15,6 @@ class Bomb extends GameObject {
 
         
         this.speed = Math.random() * 2 + 2
-
-        this.game = g
 
     }
 

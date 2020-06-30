@@ -15,11 +15,21 @@ var __extends = (this && this.__extends) || (function () {
 var GameObject = (function () {
     function GameObject(tag) {
         this.x = 0;
-        this.y = 0;
+        this._y = 0;
         this._div = document.createElement(tag);
         var game = document.getElementsByTagName("game")[0];
         game.appendChild(this._div);
     }
+    Object.defineProperty(GameObject.prototype, "y", {
+        get: function () {
+            return this._y;
+        },
+        set: function (value) {
+            this._y = value;
+        },
+        enumerable: false,
+        configurable: true
+    });
     Object.defineProperty(GameObject.prototype, "div", {
         get: function () {
             return this._div;
@@ -31,19 +41,18 @@ var GameObject = (function () {
         return this._div.getBoundingClientRect();
     };
     GameObject.prototype.update = function () {
-        this._div.style.transform = "translate(" + this.x + "px, " + this.y + "px)";
+        this._div.style.transform = "translate(" + this.x + "px, " + this._y + "px)";
     };
     return GameObject;
 }());
 var Bomb = (function (_super) {
     __extends(Bomb, _super);
-    function Bomb(g) {
+    function Bomb() {
         var _this = _super.call(this, "bomb") || this;
         _this.speed = 0;
         _this.setRandomXInScreen(_this.div);
         _this.setRandomYAboveScreen();
         _this.speed = Math.random() * 2 + 2;
-        _this.game = g;
         return _this;
     }
     Bomb.prototype.update = function () {
@@ -72,10 +81,11 @@ var Game = (function () {
     function Game() {
         this.gameobjects = [];
         this.score = 0;
-        console.log("Game created!");
+        this.lives = 0;
+        this.lives = 4;
         this.gameobjects.push(new Tank());
         for (var i = 0; i < 10; i++) {
-            this.gameobjects.push(new Bomb(this));
+            this.gameobjects.push(new Bomb());
         }
         this.gameLoop();
     }
@@ -93,6 +103,7 @@ var Game = (function () {
                             bomb.removeBomb();
                             this.addScore();
                         }
+                        this.catchOnTime(bomb);
                     }
                 }
             }
@@ -109,6 +120,19 @@ var Game = (function () {
         var score = document.getElementsByTagName("score")[0];
         this.score++;
         score.innerHTML = "" + this.score;
+    };
+    Game.prototype.catchOnTime = function (bomb) {
+        if (bomb.y + bomb.div.clientHeight > window.innerHeight) {
+            var lives = document.getElementsByTagName("lives")[0];
+            this.lives--;
+            lives.innerHTML = "" + this.lives;
+            this.restart();
+        }
+    };
+    Game.prototype.restart = function () {
+        this.lives++;
+    };
+    Game.prototype.gameOver = function () {
     };
     return Game;
 }());
